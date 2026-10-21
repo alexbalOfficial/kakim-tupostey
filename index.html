@@ -4,233 +4,267 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Каким тупостей</title>
-    <!-- Подключение FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Фоновые декоративные элементы -->
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+
     <header>
-        <div class="header-content">
-            <h1><i class="fa-solid fa-clapperboard"></i> Каким тупостей</h1>
-            <p class="subtitle">Архив курьезных видеоматериалов</p>
+        <div class="logo-group">
+            <div class="logo-icon"><i class="fa-solid fa-bolt"></i></div>
+            <div>
+                <h1>КАКИМ ТУПОСТЕЙ</h1>
+                <span class="tagline">CURATED CHAOS ARCHIVE</span>
+            </div>
         </div>
-        <button id="openUploadBtn" class="btn-primary">
-            <i class="fa-solid fa-cloud-arrow-up"></i> Добавить прикол
+        <button id="openUploadBtn" class="btn-glow">
+            <i class="fa-solid fa-plus"></i>
+            <span>Загрузить</span>
         </button>
     </header>
 
-    <div class="search-container">
-        <div class="search-wrapper">
-            <i class="fa-solid fa-magnifying-glass search-icon"></i>
-            <input type="text" id="searchInput" placeholder="Поиск по названию или описанию..." onkeyup="searchPranks()">
+    <section class="search-section">
+        <div class="search-box">
+            <i class="fa-solid fa-terminal search-prefix"></i>
+            <input type="text" id="searchInput" placeholder="find_prank --query=&quot;&quot;" onkeyup="searchPranks()" autocomplete="off">
+            <kbd class="search-hint">ESC</kbd>
         </div>
-    </div>
+    </section>
 
-    <main class="pranks-grid" id="pranksContainer">
-        <!-- Пример статической карточки -->
-        <article class="prank-card" data-title="Неудачный трюк на скейте" data-desc="Попытка выполнить кикфлип закончилась гравитационным поражением">
-            <div class="video-container">
-                <video controls preload="metadata">
+    <main class="grid" id="pranksContainer">
+        <!-- CS2 Разнос -->
+        <article class="card" data-title="Разнос в CS2" data-desc="Эйс на Mirage с AK-47, clutch 1v5 на B-site">
+            <div class="card-media">
+                <video controls preload="metadata" poster="https://placehold.co/600x340/1a1a2e/e94560?text=CS2+ACE">
                     <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                    Ваш браузер не поддерживает видео.
                 </video>
+                <div class="card-badge"><i class="fa-solid fa-crosshairs"></i> CS2</div>
             </div>
-            <div class="card-info">
-                <h3>Неудачный трюк на скейте</h3>
-                <p>Попытка выполнить кикфлип закончилась гравитационным поражением</p>
-                <span class="meta"><i class="fa-regular fa-clock"></i> 22.10.2026</span>
+            <div class="card-body">
+                <h3>Разнос в CS2</h3>
+                <p>Эйс на Mirage с AK-47, clutch 1v5 на B-site. Противники покинули матч.</p>
+                <div class="card-meta">
+                    <span><i class="fa-regular fa-calendar"></i> 22.10.2026</span>
+                    <span><i class="fa-solid fa-fire"></i> 2.4K</span>
+                </div>
             </div>
         </article>
 
-        <article class="prank-card" data-title="Кот и лазерная указка" data-desc="Хищнический инстинкт против неуловимой красной точки">
-            <div class="video-container">
-                <video controls preload="metadata">
+        <!-- Скейт -->
+        <article class="card" data-title="Гравитационный долг" data-desc="Кикфлип через 12 ступеней пошёл не по плану">
+            <div class="card-media">
+                <video controls preload="metadata" poster="https://placehold.co/600x340/1a1a2e/6c5ce7?text=SKATE+FAIL">
                     <source src="https://www.w3schools.com/html/movie.mp4" type="video/mp4">
-                    Ваш браузер не поддерживает видео.
                 </video>
+                <div class="card-badge badge-fail"><i class="fa-solid fa-skull"></i> FAIL</div>
             </div>
-            <div class="card-info">
-                <h3>Кот и лазерная указка</h3>
-                <p>Хищнический инстинкт против неуловимой красной точки</p>
-                <span class="meta"><i class="fa-regular fa-clock"></i> 21.10.2026</span>
+            <div class="card-body">
+                <h3>Гравитационный долг</h3>
+                <p>Кикфлип через 12 ступеней пошёл не по плану. Скорая уже в пути.</p>
+                <div class="card-meta">
+                    <span><i class="fa-regular fa-calendar"></i> 21.10.2026</span>
+                    <span><i class="fa-solid fa-fire"></i> 1.8K</span>
+                </div>
+            </div>
+        </article>
+
+        <!-- Паркур -->
+        <article class="card" data-title="Паркур в гараже" data-desc="Wallrun закончился встречей со стеллажом">
+            <div class="card-media">
+                <video controls preload="metadata" poster="https://placehold.co/600x340/1a1a2e/00cec9?text=PARKOUR">
+                    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                </video>
+                <div class="card-badge badge-fail"><i class="fa-solid fa-person-falling"></i> OOPS</div>
+            </div>
+            <div class="card-body">
+                <h3>Паркур в гараже</h3>
+                <p>Wallrun закончился встречей со стеллажом. Металлический стеллаж победил.</p>
+                <div class="card-meta">
+                    <span><i class="fa-regular fa-calendar"></i> 20.10.2026</span>
+                    <span><i class="fa-solid fa-fire"></i> 3.1K</span>
+                </div>
+            </div>
+        </article>
+
+        <!-- Дрифт -->
+        <article class="card" data-title="Дрифт на Ладе" data-desc="Зимний дрифт на парковке ТЦ, бампер остался в истории">
+            <div class="card-media">
+                <video controls preload="metadata" poster="https://placehold.co/600x340/1a1a2e/fdcb6e?text=DRIFT">
+                    <source src="https://www.w3schools.com/html/movie.mp4" type="video/mp4">
+                </video>
+                <div class="card-badge"><i class="fa-solid fa-car-side"></i> AUTO</div>
+            </div>
+            <div class="card-body">
+                <h3>Дрифт на Ладе</h3>
+                <p>Зимний дрифт на парковке ТЦ. Бампер остался в истории, водитель — в шоке.</p>
+                <div class="card-meta">
+                    <span><i class="fa-regular fa-calendar"></i> 19.10.2026</span>
+                    <span><i class="fa-solid fa-fire"></i> 5.7K</span>
+                </div>
             </div>
         </article>
     </main>
 
     <!-- Модальное окно загрузки -->
-    <dialog id="uploadModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2><i class="fa-solid fa-upload"></i> Загрузка материала</h2>
-                <button id="closeModalBtn" class="btn-close"><i class="fa-solid fa-xmark"></i></button>
+    <dialog id="uploadModal">
+        <div class="modal-shell">
+            <div class="modal-topbar">
+                <span class="modal-title"><i class="fa-solid fa-cloud-arrow-up"></i> UPLOAD_SEQUENCE</span>
+                <button id="closeModalBtn" class="modal-close"><i class="fa-solid fa-xmark"></i></button>
             </div>
+
             <form id="uploadForm">
-                <div class="form-group">
-                    <label for="videoTitle">Название прикола</label>
-                    <input type="text" id="videoTitle" required placeholder="Введите название...">
-                </div>
-                
-                <div class="form-group">
-                    <label for="videoDesc">Описание</label>
-                    <textarea id="videoDesc" rows="3" placeholder="Краткое описание ситуации..."></textarea>
-                </div>
+                <label class="field">
+                    <span class="field-label">TITLE</span>
+                    <input type="text" id="videoTitle" required placeholder="Название прикола">
+                </label>
 
-                <div class="form-group">
-                    <label for="videoFile">Видеофайл (MP4, WebM)</label>
-                    <div class="file-drop-zone" id="dropZone">
-                        <i class="fa-solid fa-film"></i>
-                        <p>Перетащите файл сюда или нажмите для выбора</p>
-                        <input type="file" id="videoFile" accept="video/mp4,video/webm" required hidden>
-                        <span id="fileName" class="file-name"></span>
+                <label class="field">
+                    <span class="field-label">DESCRIPTION</span>
+                    <textarea id="videoDesc" rows="3" placeholder="Контекст происходящего..."></textarea>
+                </label>
+
+                <label class="field">
+                    <span class="field-label">VIDEO_FILE</span>
+                    <div class="dropzone" id="dropZone">
+                        <i class="fa-solid fa-film dropzone-icon"></i>
+                        <span class="dropzone-text">DROP FILE OR CLICK</span>
+                        <span class="dropzone-formats">MP4 / WEBM / MOV</span>
+                        <input type="file" id="videoFile" accept="video/*" required hidden>
+                        <span id="fileName" class="selected-file"></span>
                     </div>
+                </label>
+
+                <div class="progress-track" id="progressTrack" hidden>
+                    <div class="progress-bar" id="progressBar"></div>
+                    <span class="progress-label" id="progressLabel">UPLOADING...</span>
                 </div>
 
-                <div id="uploadProgress" class="progress-bar" hidden>
-                    <div class="progress-fill" id="progressFill"></div>
-                </div>
-
-                <button type="submit" class="btn-primary btn-full">
-                    <i class="fa-solid fa-paper-plane"></i> Отправить на сервер
+                <button type="submit" class="btn-glow btn-submit">
+                    <i class="fa-solid fa-rocket"></i>
+                    <span>INITIATE UPLOAD</span>
                 </button>
             </form>
         </div>
     </dialog>
 
     <footer>
-        <p>&copy; 2026 Каким тупостей. Все права защищены.</p>
+        <div class="footer-line"></div>
+        <p>&copy; 2026 КАКИМ ТУПОСТЕЙ &mdash; SYSTEM OPERATIONAL</p>
     </footer>
 
     <script>
-        // === Логика модального окна ===
+        /* ===== MODAL ===== */
         const modal = document.getElementById('uploadModal');
         const openBtn = document.getElementById('openUploadBtn');
         const closeBtn = document.getElementById('closeModalBtn');
         const dropZone = document.getElementById('dropZone');
         const fileInput = document.getElementById('videoFile');
-        const fileNameSpan = document.getElementById('fileName');
-        const uploadForm = document.getElementById('uploadForm');
+        const fileNameEl = document.getElementById('fileName');
+        const form = document.getElementById('uploadForm');
 
-        openBtn.addEventListener('click', () => modal.showModal());
-        closeBtn.addEventListener('click', () => modal.close());
-        
-        // Закрытие по клику вне контента
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) modal.close();
+        openBtn.onclick = () => modal.showModal();
+        closeBtn.onclick = () => modal.close();
+        modal.addEventListener('click', e => { if (e.target === modal) modal.close(); });
+
+        /* ===== DRAG & DROP ===== */
+        dropZone.onclick = () => fileInput.click();
+        ['dragenter','dragover'].forEach(ev =>
+            dropZone.addEventListener(ev, e => { e.preventDefault(); dropZone.classList.add('active'); })
+        );
+        ['dragleave','drop'].forEach(ev =>
+            dropZone.addEventListener(ev, e => { e.preventDefault(); dropZone.classList.remove('active'); })
+        );
+        dropZone.addEventListener('drop', e => {
+            if (e.dataTransfer.files.length) { fileInput.files = e.dataTransfer.files; showFile(); }
         });
+        fileInput.addEventListener('change', showFile);
 
-        // === Drag & Drop и выбор файла ===
-        dropZone.addEventListener('click', () => fileInput.click());
-        
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.classList.add('drag-active');
-        });
-
-        dropZone.addEventListener('dragleave', () => {
-            dropZone.classList.remove('drag-active');
-        });
-
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('drag-active');
-            if (e.dataTransfer.files.length) {
-                fileInput.files = e.dataTransfer.files;
-                updateFileName();
-            }
-        });
-
-        fileInput.addEventListener('change', updateFileName);
-
-        function updateFileName() {
+        function showFile() {
             if (fileInput.files.length) {
-                fileNameSpan.textContent = fileInput.files[0].name;
-                dropZone.classList.add('has-file');
+                fileNameEl.textContent = fileInput.files[0].name;
+                dropZone.classList.add('loaded');
             }
         }
 
-        // === Имитация загрузки на сервер ===
-        uploadForm.addEventListener('submit', async (e) => {
+        /* ===== UPLOAD SIMULATION ===== */
+        form.addEventListener('submit', async e => {
             e.preventDefault();
-            
-            const formData = new FormData(uploadForm);
-            const progressEl = document.getElementById('uploadProgress');
-            const fillEl = document.getElementById('progressFill');
-            
-            progressEl.hidden = false;
-            fillEl.style.width = '0%';
+            const track = document.getElementById('progressTrack');
+            const bar = document.getElementById('progressBar');
+            const label = document.getElementById('progressLabel');
 
-            // ИМИТАЦИЯ ОТПРАВКИ НА СЕРВЕР
-            // В реальном проекте замените этот блок на fetch('/api/upload', { method: 'POST', body: formData })
-            try {
-                await new Promise(resolve => {
-                    let progress = 0;
-                    const interval = setInterval(() => {
-                        progress += Math.random() * 15;
-                        if (progress >= 100) {
-                            progress = 100;
-                            clearInterval(interval);
-                            resolve();
-                        }
-                        fillEl.style.width = `${progress}%`;
-                    }, 200);
-                });
+            track.hidden = false;
+            bar.style.width = '0%';
+            label.textContent = 'UPLOADING...';
 
-                // После успешной "загрузки" добавляем карточку локально для демонстрации
-                addPrankCardLocally(
-                    document.getElementById('videoTitle').value,
-                    document.getElementById('videoDesc').value,
-                    URL.createObjectURL(fileInput.files[0])
-                );
+            // ЗАМЕНИТЬ НА РЕАЛЬНЫЙ fetch('/api/upload', { method:'POST', body: new FormData(form) })
+            await new Promise(res => {
+                let p = 0;
+                const iv = setInterval(() => {
+                    p += Math.random() * 18;
+                    if (p >= 100) { p = 100; clearInterval(iv); res(); }
+                    bar.style.width = p + '%';
+                }, 180);
+            });
 
-                uploadForm.reset();
-                fileNameSpan.textContent = '';
-                dropZone.classList.remove('has-file');
-                progressEl.hidden = true;
-                modal.close();
-                
-            } catch (error) {
-                alert('Ошибка при загрузке. Проверьте подключение к серверу.');
-                progressEl.hidden = true;
-            }
+            label.textContent = 'COMPLETE';
+            addCard(
+                document.getElementById('videoTitle').value,
+                document.getElementById('videoDesc').value,
+                URL.createObjectURL(fileInput.files[0])
+            );
+
+            form.reset();
+            fileNameEl.textContent = '';
+            dropZone.classList.remove('loaded');
+            setTimeout(() => { track.hidden = true; modal.close(); }, 600);
         });
 
-        // === Добавление новой карточки в DOM ===
-        function addPrankCardLocally(title, desc, videoSrc) {
-            const container = document.getElementById('pranksContainer');
-            const today = new Date().toLocaleDateString('ru-RU');
-            
-            const article = document.createElement('article');
-            article.className = 'prank-card';
-            article.dataset.title = title.toLowerCase();
-            article.dataset.desc = desc.toLowerCase();
-            article.innerHTML = `
-                <div class="video-container">
-                    <video controls preload="metadata">
-                        <source src="${videoSrc}" type="video/mp4">
-                    </video>
+        /* ===== ADD CARD TO GRID ===== */
+        function addCard(title, desc, src) {
+            const date = new Date().toLocaleDateString('ru-RU');
+            const el = document.createElement('article');
+            el.className = 'card';
+            el.dataset.title = title.toLowerCase();
+            el.dataset.desc = (desc || '').toLowerCase();
+            el.innerHTML = `
+                <div class="card-media">
+                    <video controls preload="metadata"><source src="${src}"></video>
+                    <div class="card-badge"><i class="fa-solid fa-star"></i> NEW</div>
                 </div>
-                <div class="card-info">
+                <div class="card-body">
                     <h3>${title}</h3>
                     <p>${desc || 'Без описания'}</p>
-                    <span class="meta"><i class="fa-regular fa-clock"></i> ${today}</span>
-                </div>
-            `;
-            
-            container.prepend(article);
+                    <div class="card-meta">
+                        <span><i class="fa-regular fa-calendar"></i> ${date}</span>
+                        <span><i class="fa-solid fa-fire"></i> 0</span>
+                    </div>
+                </div>`;
+            document.getElementById('pranksContainer').prepend(el);
         }
 
-        // === Поиск ===
+        /* ===== SEARCH ===== */
         function searchPranks() {
-            const filter = document.getElementById('searchInput').value.toLowerCase();
-            const cards = document.querySelectorAll('.prank-card');
-
-            cards.forEach(card => {
-                const title = card.dataset.title || '';
-                const desc = card.dataset.desc || '';
-                const match = title.includes(filter) || desc.includes(filter);
-                card.style.display = match ? '' : 'none';
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            document.querySelectorAll('.card').forEach(c => {
+                const hit = (c.dataset.title || '').includes(q) || (c.dataset.desc || '').includes(q);
+                c.hidden = !hit;
             });
         }
+
+        /* ESC to clear search */
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') {
+                const inp = document.getElementById('searchInput');
+                if (document.activeElement === inp) { inp.value = ''; searchPranks(); inp.blur(); }
+            }
+        });
     </script>
 </body>
 </html>
