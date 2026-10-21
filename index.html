@@ -1,13 +1,236 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="style.css" rel="stylesheet" type="text/css">
     <title>Каким тупостей</title>
+    <!-- Подключение FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Каким тупостей</h1>
-	<p>дебилы играют в CSS</p>
+    <header>
+        <div class="header-content">
+            <h1><i class="fa-solid fa-clapperboard"></i> Каким тупостей</h1>
+            <p class="subtitle">Архив курьезных видеоматериалов</p>
+        </div>
+        <button id="openUploadBtn" class="btn-primary">
+            <i class="fa-solid fa-cloud-arrow-up"></i> Добавить прикол
+        </button>
+    </header>
+
+    <div class="search-container">
+        <div class="search-wrapper">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="searchInput" placeholder="Поиск по названию или описанию..." onkeyup="searchPranks()">
+        </div>
+    </div>
+
+    <main class="pranks-grid" id="pranksContainer">
+        <!-- Пример статической карточки -->
+        <article class="prank-card" data-title="Неудачный трюк на скейте" data-desc="Попытка выполнить кикфлип закончилась гравитационным поражением">
+            <div class="video-container">
+                <video controls preload="metadata">
+                    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                    Ваш браузер не поддерживает видео.
+                </video>
+            </div>
+            <div class="card-info">
+                <h3>Неудачный трюк на скейте</h3>
+                <p>Попытка выполнить кикфлип закончилась гравитационным поражением</p>
+                <span class="meta"><i class="fa-regular fa-clock"></i> 22.10.2026</span>
+            </div>
+        </article>
+
+        <article class="prank-card" data-title="Кот и лазерная указка" data-desc="Хищнический инстинкт против неуловимой красной точки">
+            <div class="video-container">
+                <video controls preload="metadata">
+                    <source src="https://www.w3schools.com/html/movie.mp4" type="video/mp4">
+                    Ваш браузер не поддерживает видео.
+                </video>
+            </div>
+            <div class="card-info">
+                <h3>Кот и лазерная указка</h3>
+                <p>Хищнический инстинкт против неуловимой красной точки</p>
+                <span class="meta"><i class="fa-regular fa-clock"></i> 21.10.2026</span>
+            </div>
+        </article>
+    </main>
+
+    <!-- Модальное окно загрузки -->
+    <dialog id="uploadModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-upload"></i> Загрузка материала</h2>
+                <button id="closeModalBtn" class="btn-close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="uploadForm">
+                <div class="form-group">
+                    <label for="videoTitle">Название прикола</label>
+                    <input type="text" id="videoTitle" required placeholder="Введите название...">
+                </div>
+                
+                <div class="form-group">
+                    <label for="videoDesc">Описание</label>
+                    <textarea id="videoDesc" rows="3" placeholder="Краткое описание ситуации..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="videoFile">Видеофайл (MP4, WebM)</label>
+                    <div class="file-drop-zone" id="dropZone">
+                        <i class="fa-solid fa-film"></i>
+                        <p>Перетащите файл сюда или нажмите для выбора</p>
+                        <input type="file" id="videoFile" accept="video/mp4,video/webm" required hidden>
+                        <span id="fileName" class="file-name"></span>
+                    </div>
+                </div>
+
+                <div id="uploadProgress" class="progress-bar" hidden>
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+
+                <button type="submit" class="btn-primary btn-full">
+                    <i class="fa-solid fa-paper-plane"></i> Отправить на сервер
+                </button>
+            </form>
+        </div>
+    </dialog>
+
+    <footer>
+        <p>&copy; 2026 Каким тупостей. Все права защищены.</p>
+    </footer>
+
+    <script>
+        // === Логика модального окна ===
+        const modal = document.getElementById('uploadModal');
+        const openBtn = document.getElementById('openUploadBtn');
+        const closeBtn = document.getElementById('closeModalBtn');
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('videoFile');
+        const fileNameSpan = document.getElementById('fileName');
+        const uploadForm = document.getElementById('uploadForm');
+
+        openBtn.addEventListener('click', () => modal.showModal());
+        closeBtn.addEventListener('click', () => modal.close());
+        
+        // Закрытие по клику вне контента
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.close();
+        });
+
+        // === Drag & Drop и выбор файла ===
+        dropZone.addEventListener('click', () => fileInput.click());
+        
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('drag-active');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('drag-active');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('drag-active');
+            if (e.dataTransfer.files.length) {
+                fileInput.files = e.dataTransfer.files;
+                updateFileName();
+            }
+        });
+
+        fileInput.addEventListener('change', updateFileName);
+
+        function updateFileName() {
+            if (fileInput.files.length) {
+                fileNameSpan.textContent = fileInput.files[0].name;
+                dropZone.classList.add('has-file');
+            }
+        }
+
+        // === Имитация загрузки на сервер ===
+        uploadForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(uploadForm);
+            const progressEl = document.getElementById('uploadProgress');
+            const fillEl = document.getElementById('progressFill');
+            
+            progressEl.hidden = false;
+            fillEl.style.width = '0%';
+
+            // ИМИТАЦИЯ ОТПРАВКИ НА СЕРВЕР
+            // В реальном проекте замените этот блок на fetch('/api/upload', { method: 'POST', body: formData })
+            try {
+                await new Promise(resolve => {
+                    let progress = 0;
+                    const interval = setInterval(() => {
+                        progress += Math.random() * 15;
+                        if (progress >= 100) {
+                            progress = 100;
+                            clearInterval(interval);
+                            resolve();
+                        }
+                        fillEl.style.width = `${progress}%`;
+                    }, 200);
+                });
+
+                // После успешной "загрузки" добавляем карточку локально для демонстрации
+                addPrankCardLocally(
+                    document.getElementById('videoTitle').value,
+                    document.getElementById('videoDesc').value,
+                    URL.createObjectURL(fileInput.files[0])
+                );
+
+                uploadForm.reset();
+                fileNameSpan.textContent = '';
+                dropZone.classList.remove('has-file');
+                progressEl.hidden = true;
+                modal.close();
+                
+            } catch (error) {
+                alert('Ошибка при загрузке. Проверьте подключение к серверу.');
+                progressEl.hidden = true;
+            }
+        });
+
+        // === Добавление новой карточки в DOM ===
+        function addPrankCardLocally(title, desc, videoSrc) {
+            const container = document.getElementById('pranksContainer');
+            const today = new Date().toLocaleDateString('ru-RU');
+            
+            const article = document.createElement('article');
+            article.className = 'prank-card';
+            article.dataset.title = title.toLowerCase();
+            article.dataset.desc = desc.toLowerCase();
+            article.innerHTML = `
+                <div class="video-container">
+                    <video controls preload="metadata">
+                        <source src="${videoSrc}" type="video/mp4">
+                    </video>
+                </div>
+                <div class="card-info">
+                    <h3>${title}</h3>
+                    <p>${desc || 'Без описания'}</p>
+                    <span class="meta"><i class="fa-regular fa-clock"></i> ${today}</span>
+                </div>
+            `;
+            
+            container.prepend(article);
+        }
+
+        // === Поиск ===
+        function searchPranks() {
+            const filter = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.prank-card');
+
+            cards.forEach(card => {
+                const title = card.dataset.title || '';
+                const desc = card.dataset.desc || '';
+                const match = title.includes(filter) || desc.includes(filter);
+                card.style.display = match ? '' : 'none';
+            });
+        }
+    </script>
 </body>
 </html>
